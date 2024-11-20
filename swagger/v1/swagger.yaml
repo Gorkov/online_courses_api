@@ -1,0 +1,451 @@
+openapi: 3.1.1
+info:
+  title: Online Courses API
+  version: 1.0.0
+servers:
+  - url: http://127.0.0.1:3000
+paths:
+    /api/v1/authors:
+      get:
+        summary: Get a list of authors
+        operationId: getAuthors
+        parameters:
+          - in: query
+            name: page
+            description: Page number
+            schema:
+              type: integer
+              minimum: 1
+        responses:
+          '200':
+            description: A list of authors
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    properties:
+                      collection:
+                        type: array
+                        items:
+                          type: object
+                          $ref: '#/components/schemas/Author'
+                      paging:
+                        type: object
+                        $ref: '#/components/schemas/Paging'
+                    required:
+                      - collection
+      post:
+        summary: Create a new author
+        operationId: createAuthor
+        requestBody:
+          description: The author to create
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorCreate'
+        responses:
+          '201':
+            description: The created author
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Author'
+          '422':
+            $ref: '#/components/responses/UnprocessableEntity'
+    /api/v1/authors/{authorId}:
+      get:
+        summary: Get a author by ID
+        operationId: getAuthorById
+        parameters:
+          - $ref: '#/components/parameters/authorIdParam'
+        responses:
+          '200':
+            description: The author with the given ID
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Author'
+          '404':
+            $ref: '#/components/responses/NotFound'
+      patch:
+        summary: Update a author by ID
+        operationId: updateAuthorById
+        parameters:
+          - $ref: '#/components/parameters/authorIdParam'
+        requestBody:
+          description: The updated author data
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorCreate'
+        responses:
+          '200':
+            description: The updated author
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Author'
+          '422':
+            $ref: '#/components/responses/UnprocessableEntity'
+          '404':
+            $ref: '#/components/responses/NotFound'
+      delete:
+        summary: Delete a author by ID
+        operationId: deleteAuthorById
+        parameters:
+          - $ref: '#/components/parameters/authorIdParam'
+        responses:
+          '204':
+            description: The author was successfully deleted
+          '404':
+            $ref: '#/components/responses/NotFound'
+    /api/v1/competencies:
+      get:
+        summary: Get a list of competencies
+        operationId: getCompetencies
+        parameters:
+          - in: query
+            name: page
+            description: Page number
+            schema:
+              type: integer
+              minimum: 1
+        responses:
+          '200':
+            description: A list of competencies
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    properties:
+                      collection:
+                        type: array
+                        items:
+                          type: object
+                          $ref: '#/components/schemas/Competency'
+                      paging:
+                        type: object
+                        $ref: '#/components/schemas/Paging'
+                    required:
+                      - collection
+      post:
+        summary: Create a new competency
+        operationId: createCompetency
+        requestBody:
+          description: The competency to create
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompetencyCreate'
+        responses:
+          '201':
+            description: The created competency
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Competency'
+          '422':
+            $ref: '#/components/responses/UnprocessableEntity'
+    /api/v1/competencies/{competencyId}:
+      get:
+        summary: Get a competency by ID
+        operationId: getCompetencyById
+        parameters:
+          - $ref: '#/components/parameters/competencyIdParam'
+        responses:
+          '200':
+            description: The competency with the given ID
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Competency'
+          '404':
+            $ref: '#/components/responses/NotFound'
+      patch:
+        summary: Update a competency by ID
+        operationId: updateCompetencyById
+        parameters:
+          - $ref: '#/components/parameters/competencyIdParam'
+        requestBody:
+          description: The updated competency data
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompetencyCreate'
+        responses:
+          '200':
+            description: The updated competency
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Competency'
+          '422':
+            $ref: '#/components/responses/UnprocessableEntity'
+          '404':
+            $ref: '#/components/responses/NotFound'
+      delete:
+        summary: Delete a competency by ID
+        operationId: deleteCompetencyById
+        parameters:
+          - $ref: '#/components/parameters/competencyIdParam'
+        responses:
+          '204':
+            description: The competency was successfully deleted
+          '404':
+            $ref: '#/components/responses/NotFound'
+    /api/v1/courses:
+      get:
+        summary: Get a list of courses
+        operationId: getCourses
+        parameters:
+          - in: query
+            name: page
+            description: Page number
+            schema:
+              type: integer
+              minimum: 1
+        responses:
+          '200':
+            description: A list of courses
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    properties:
+                      collection:
+                        type: array
+                        items:
+                          type: object
+                          $ref: '#/components/schemas/Course'
+                      paging:
+                        type: object
+                        $ref: '#/components/schemas/Paging'
+                    required:
+                      - collection
+      post:
+        summary: Create a new course
+        operationId: createCourse
+        requestBody:
+          description: The course to create
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseCreate'
+        responses:
+          '201':
+            description: The created course
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Course'
+          '422':
+            $ref: '#/components/responses/UnprocessableEntity'
+    /api/v1/courses/{courseId}:
+      get:
+        summary: Get a course by ID
+        operationId: getCourseById
+        parameters:
+          - $ref: '#/components/parameters/courseIdParam'
+        responses:
+          '200':
+            description: The course with the given ID
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Course'
+          '404':
+            $ref: '#/components/responses/NotFound'
+      patch:
+        summary: Update a course by ID
+        operationId: updateCourseById
+        parameters:
+          - $ref: '#/components/parameters/courseIdParam'
+        requestBody:
+          description: The updated course data
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CourseCreate'
+        responses:
+          '200':
+            description: The updated course
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Course'
+          '422':
+            $ref: '#/components/responses/UnprocessableEntity'
+          '404':
+            $ref: '#/components/responses/NotFound'
+      delete:
+        summary: Delete a course by ID
+        operationId: deleteCourseById
+        parameters:
+          - $ref: '#/components/parameters/courseIdParam'
+        responses:
+          '204':
+            description: The course was successfully deleted
+          '404':
+            $ref: '#/components/responses/NotFound'
+components:
+  parameters:
+    authorIdParam:
+      in: path
+      name: authorId
+      required: true
+      description: The ID of the author to retrieve, update or delete
+      schema:
+        type: integer
+    competencyIdParam:
+      in: path
+      name: competencyId
+      required: true
+      description: The ID of the competency to retrieve, update or delete
+      schema:
+        type: integer
+    courseIdParam:
+      in: path
+      name: courseId
+      required: true
+      description: The ID of the course to retrieve, update or delete
+      schema:
+        type: integer
+  schemas:
+    Paging:
+      type: object
+      properties:
+        count:
+          type: integer
+        page:
+          type: integer
+        next:
+          type: integer
+    Author:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The unique identifier for the author
+        name:
+          type: string
+          description: The name of the author
+        competencies:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/Competency'
+      required:
+        - id
+        - name
+    AuthorCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the author
+        competency_ids:
+          type: array
+          description: The competency ids of the author
+          items:
+            type: integer
+      required:
+        - name
+      additionalProperties: false
+    Competency:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The unique identifier for the competency
+        description:
+          type: string
+          description: The name of the competency
+      required:
+        - id
+        - description
+    CompetencyCreate:
+      type: object
+      properties:
+        description:
+          type: string
+          description: The description of the competency
+      required:
+        - description
+      additionalProperties: false
+    Course:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: The unique identifier for the course
+        title:
+          type: string
+          description: The title of the course
+        description:
+          type: string
+          description: The description of the course
+        author_id:
+          type: integer
+          description: The author_id of the course
+        competencies:
+          type: array
+          items:
+            type: object
+            $ref: '#/components/schemas/Competency'
+      required:
+        - id
+        - title
+        - description
+        - author_id
+    CourseCreate:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title of the course
+        description:
+          type: string
+          description: The description of the course
+        author_id:
+          type: integer
+          description: The author_id of the course
+        competency_ids:
+          type: array
+          description: The competency ids of the author
+          items:
+            type: integer
+      required:
+        - id
+        - title
+        - author_id
+      additionalProperties: false
+  responses:
+    UnprocessableEntity:
+      description: Invalid entities from request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: A description of the error
+    NotFound:
+      description: Record not found
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                description: A description of the error
